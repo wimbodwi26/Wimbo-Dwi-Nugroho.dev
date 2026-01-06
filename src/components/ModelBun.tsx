@@ -1,5 +1,5 @@
 import { useFrame } from "@react-three/fiber";
-import { useGLTF, useTexture } from "@react-three/drei";
+import { useGLTF, useTexture, Center } from "@react-three/drei";
 import { useRef, useEffect } from "react";
 import * as THREE from "three";
 
@@ -19,11 +19,6 @@ export default function ModelBun({ scale = 3, ...props }) {
   }, [gltf.scene, texture]);
 
   // Fix orbit -> center pivot
-  useEffect(() => {
-    const box = new THREE.Box3().setFromObject(gltf.scene);
-    const center = box.getCenter(new THREE.Vector3());
-    gltf.scene.position.sub(center);
-  }, [gltf.scene]);
 
   // Rotate model
   useFrame((_, delta) => {
@@ -34,7 +29,9 @@ export default function ModelBun({ scale = 3, ...props }) {
 
   return (
     <group ref={groupRef} scale={scale} {...props}>
+      <Center>
       <primitive object={gltf.scene} />
+      </Center>
     </group>
   );
 }
