@@ -1,11 +1,12 @@
 import NavBar from "./navbar";
 import { Canvas } from "@react-three/fiber";
+import { Suspense } from "react";
 //import Typed from "react-typed";
 //import { Typed } from "react-typed";
 //import { ReactTyped } from "react-typed";
 import { Typewriter } from 'react-simple-typewriter';
 import { OrbitControls, Environment, Stars, } from "@react-three/drei";
-import Earth from "./ModelBun";
+import ModelBun from "./ModelBun";
 //import '../styles/text.css'
 import AboutPage from "./About/about";
 import ProjectList from "./Project-List/projectList";
@@ -25,11 +26,9 @@ function HomePage() {
       <Canvas
         className="absolute inset-0"
         camera={{ position: [3, 2, 3], fov: 46 }}
+        gl={{ antialias: false, powerPreference: "high-performance" }}
+        dpr={[1, 1.5]}
       >
-        <ambientLight intensity={0.1} />
-        <directionalLight intensity={2} position={[4, 4, 4]} />
-        <Environment preset="sunset" />
-
         <OrbitControls
           enableRotate={true}
           enablePan={false}
@@ -39,27 +38,30 @@ function HomePage() {
           maxDistance={3}
         />
 
-        <Stars radius={200} depth={50} count={5000} factor={4} fade />
-        <Earth scale={3} />
+        <Suspense fallback={null}>
+          <Environment preset="sunset" />
+        <directionalLight intensity={2} position={[4, 4, 4]} />
+        <ambientLight intensity={0.1} />
+        <Stars radius={200} depth={50} count={6000} factor={4} fade />
+        <ModelBun scale={3} />
+        </Suspense>
       </Canvas>
 
-      {/* OVERLAY TEKS & BUTTON */}
-      {/* Tambahkan px-4 agar teks tidak mepet layar di HP */}
       <div className="absolute inset-0 z-10 flex flex-col justify-center pointer-events-none items-center text-center space-y-6 px-4">
 
-        {/* TEXT — Pointer off agar bisa drag canvas di sela-sela teks */}
-        <div className="pointer-events-none flex flex-col space-y-2 bg-[#02010A]/45 px-4 md:px-6 py-4 rounded-xl backdrop-blur-sm w-full max-w-4xl mx-auto">
-          {/* Teks kecil di atas: text-lg di HP, text-2xl di Desktop */}
+        
+        <div className="pointer-events-none flex flex-col space-y-2 bg-[#02010A]/50 px-4 md:px-6 py-4 rounded-xl  w-full max-w-4xl mx-auto">
+    
           <h1 className="text-lg md:text-2xl text-[#E4ECFF]">Dynamic Web Magic with Next.js</h1>
           
-          {/* Teks Utama: text-3xl di HP, md:text-6xl di Desktop */}
-          <h1 className="text-3xl md:text-6xl text-white font-bold neon-flicker text-outline drop-shadow-[0_0_24px_#a855f7] neon-blue-flicker leading-tight">
+
+          <span className="text-3xl md:text-6xl text-white font-bold leading-tight transform-gpu">
             Transforming Concepts into
-          </h1>
+          </span>
           
-          <h1 className="text-3xl md:text-6xl text-white font-bold text-outline drop-shadow-[0_0_8px_#a855f7] leading-tight">
+          <span className="text-3xl md:text-6xl text-white font-bold leading-tight transform-gpu">
             Seamless <span className="text-[#CBACF9]">User Experiences</span>
-          </h1>
+          </span>
 
           <h1 className="text-lg md:text-2xl text-[#E4ECFF] mt-4">
             Hi! I'm Wimbo Dwi Nugroho, Full Stack{" "}
@@ -68,16 +70,14 @@ function HomePage() {
                 words={['Developer Based In Indonesia']}
                 loop={0}
                 cursor
-                cursorStyle='_'
+                
                 typeSpeed={70}
-                deleteSpeed={50}
-                delaySpeed={1000}
               />
             </span>
           </h1>
         </div>
 
-        {/* BUTTON — pointer aktif */}
+
         <a href="#project"
           className="w-[180px] md:w-[207px] rounded-md cursor-pointer justify-center items-center flex h-[56px] md:h-[66px] bg-[#06091F] font-bold text-white pointer-events-auto hover:scale-105 duration-200 shadow-lg shadow-purple-500/20"
         >
@@ -86,7 +86,7 @@ function HomePage() {
       </div>
     </section>
 
-    {/* Section-section selanjutnya tetap menggunakan struktur aslimu */}
+  
     <div className="bg-[#02010A]">
       <section id="about" className="scroll-behavior: smooth;">
         <AboutPage />
