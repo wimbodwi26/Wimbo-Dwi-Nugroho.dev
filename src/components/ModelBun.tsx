@@ -3,9 +3,11 @@ import { useGLTF, useTexture, Center } from "@react-three/drei";
 import { useRef, useEffect } from "react";
 import * as THREE from "three";
 
+const DRACO_PATH = "/draco/";
+
 export default function ModelBun({ scale = 3, ...props }) {
-  const gltf: any = useGLTF("/source/bumi.glb");
-  const texture = useTexture("/textures/gltf_embedded_0.png"); // contoh nama file tekstur
+  const gltf: any = useGLTF("/source/bumi.glb", DRACO_PATH);
+  const texture = useTexture("/textures/gltf_embedded_0.webp"); // contoh nama file tekstur
   const groupRef = useRef<THREE.Group>(null!);
 
   // Apply texture sekali saja
@@ -36,5 +38,5 @@ export default function ModelBun({ scale = 3, ...props }) {
   );
 }
 
-useGLTF.preload("/bumi.glb");
+useGLTF.preload("/bumi.glb", DRACO_PATH);
 
